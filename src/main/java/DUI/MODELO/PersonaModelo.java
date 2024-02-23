@@ -18,12 +18,12 @@ public class PersonaModelo {
     private String edición;
     private String editorial;
     private String lugar; 
-    private Date fecha;
+    private String fecha;
 
     public PersonaModelo() {
     }
 
-    public PersonaModelo(String autor, String titulo, String ISBN, int páginas, String edición, String editorial, String lugar, Date fecha) {
+    public PersonaModelo(String autor, String titulo, String ISBN, int páginas, String edición, String editorial, String lugar, String fecha) {
         this.autor = autor;
         this.titulo = titulo;
         this.ISBN = ISBN;
@@ -90,11 +90,11 @@ public class PersonaModelo {
         this.lugar = lugar;
     }
 
-    public Date getFecha() {
+    public String getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(String fecha) {
         this.fecha = fecha;
     }
     

@@ -4,19 +4,46 @@
  */
 package DIU.VISTA;
 
+import CUI.CONTROLADOR.AutorControlador;
+import DUI.MODELO.AutorModelo;
+import java.net.DatagramSocket;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author pablo
  */
 public class GestorAutor extends javax.swing.JInternalFrame {
-
+ArrayList<AutorModelo> listaAutorModelo = new ArrayList<>();
+    DefaultTableModel modelo = new DefaultTableModel();
     /**
      * Creates new form GestorAutor
      */
     public GestorAutor() {
         initComponents();
+        setModelo();
     }
+    
+    public void setModelo() {
+        String[] cabecera = {"Nro ","Autor","Titulo"};
+        modelo.setColumnIdentifiers(cabecera);
+        tblAutores.setModel(modelo);
 
+    }
+    public void setDatos() {
+        Object[] Datosfila = new Object[modelo.getColumnCount()];
+        int nro = 1;
+        for (AutorModelo datos : listaAutorModelo) {
+            Datosfila[0] = nro;
+            Datosfila[1] = datos.getAutor();
+            Datosfila[2] = datos.getTitulo();
+            nro++;
+            modelo.addRow(Datosfila);
+
+        }
+  }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -26,28 +53,33 @@ public class GestorAutor extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        lblAutor = new javax.swing.JLabel();
+        lblTitulo = new javax.swing.JLabel();
+        txtAutor = new javax.swing.JTextField();
+        txttitulo = new javax.swing.JTextField();
+        btnCrear = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblAutores = new javax.swing.JTable();
 
         setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel1.setText("Autor");
+        lblAutor.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblAutor.setText("Autor");
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel2.setText("Titulo");
+        lblTitulo.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblTitulo.setText("Titulo");
 
-        jButton1.setText("Crear ");
+        btnCrear.setText("Crear ");
+        btnCrear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrearActionPerformed(evt);
+            }
+        });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblAutores.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -58,7 +90,7 @@ public class GestorAutor extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblAutores);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -72,28 +104,32 @@ public class GestorAutor extends javax.swing.JInternalFrame {
                         .addContainerGap(23, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel1))
+                            .addComponent(lblTitulo)
+                            .addComponent(lblAutor))
                         .addGap(36, 36, 36)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
-                            .addComponent(jTextField1))
+                            .addComponent(txttitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
+                            .addComponent(txtAutor))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1)
-                        .addGap(52, 52, 52))))
+                        .addComponent(btnCrear)
+                        .addGap(149, 149, 149))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblAutor)
+                            .addComponent(txtAutor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblTitulo)
+                            .addComponent(txttitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(42, 42, 42)
+                        .addComponent(btnCrear)))
                 .addGap(66, 66, 66)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(111, Short.MAX_VALUE))
@@ -102,14 +138,37 @@ public class GestorAutor extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
+        // TODO add your handling code here:
+        String titulo = txttitulo.getText();
+        String autor = txtAutor.getText();
+        // Verificar si alguno de los campos del libro está vacío
+        if (autor.isEmpty() || titulo.isEmpty()) {
+        // Mostrar un mensaje de advertencia
+         JOptionPane.showMessageDialog(this, ", ingrese todos los campos para registrar el libro.", "Campos incompletos", JOptionPane.WARNING_MESSAGE);
+         } else {
+          // Crear una instancia de LibroModelo con los datos obtenidos
+         AutorModelo AutorM = new AutorModelo(autor, titulo);
+
+         // Crear una instancia de LibroControlador
+         AutorControlador AutorC = new AutorControlador();
+
+          // Llamar al método crearLibro
+         AutorC.crearAutor(AutorM);
+         setDatos();
+         
+             
+         }
+    }//GEN-LAST:event_btnCrearActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JButton btnCrear;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JLabel lblAutor;
+    private javax.swing.JLabel lblTitulo;
+    private javax.swing.JTable tblAutores;
+    private javax.swing.JTextField txtAutor;
+    private javax.swing.JTextField txttitulo;
     // End of variables declaration//GEN-END:variables
 }

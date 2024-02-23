@@ -5,6 +5,7 @@
 package DUI;
 
 import DIU.VISTA.GestorAutor;
+import DIU.VISTA.GestorLibros;
 
 /**
  *
@@ -28,22 +29,23 @@ public class Liberia extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        escritorio = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         opGestorL = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        opAutores = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout escritorioLayout = new javax.swing.GroupLayout(escritorio);
+        escritorio.setLayout(escritorioLayout);
+        escritorioLayout.setHorizontalGroup(
+            escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 793, Short.MAX_VALUE)
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        escritorioLayout.setVerticalGroup(
+            escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 441, Short.MAX_VALUE)
         );
 
@@ -59,7 +61,16 @@ public class Liberia extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("lista de libros ");
+        jMenu2.setText("Autores");
+
+        opAutores.setText("Gestor Autores");
+        opAutores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                opAutoresActionPerformed(evt);
+            }
+        });
+        jMenu2.add(opAutores);
+
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
@@ -69,13 +80,13 @@ public class Liberia extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(escritorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(escritorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -84,10 +95,17 @@ public class Liberia extends javax.swing.JFrame {
 
     private void opGestorLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opGestorLActionPerformed
         // TODO add your handling code here:
-        GestorAutor GA = new GestorAutor();
-        GA.setVisible(true);
-        this.setVisible(false);
+        GestorLibros GL = new GestorLibros();
+        escritorio.add(GL);
+        GL.show();
     }//GEN-LAST:event_opGestorLActionPerformed
+
+    private void opAutoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opAutoresActionPerformed
+        // TODO add your handling code here:
+        GestorAutor GA = new GestorAutor();
+        escritorio.add(GA);
+        GA.show();
+    }//GEN-LAST:event_opAutoresActionPerformed
 
     /**
      * @param args the command line arguments
@@ -125,10 +143,11 @@ public class Liberia extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel escritorio;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JMenuItem opAutores;
     private javax.swing.JMenuItem opGestorL;
     // End of variables declaration//GEN-END:variables
 }

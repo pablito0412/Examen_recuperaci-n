@@ -5,7 +5,8 @@
 package DIU.VISTA;
 
 import CUI.CONTROLADOR.PersonaControlador;
-import DUI.MODELO.Persona;
+//import DUI.MODELO.Persona;
+import DUI.MODELO.PersonaModelo;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.table.DefaultTableModel;
@@ -15,7 +16,7 @@ import javax.swing.table.DefaultTableModel;
  * @author pablo
  */
 public class GestorLibros extends javax.swing.JInternalFrame {
-ArrayList<Persona> listaLibroModelo = new ArrayList<>();
+ArrayList<PersonaModelo> listaLibroModelo = new ArrayList<>();
     DefaultTableModel modelo = new DefaultTableModel();
     /**
      * Creates new form GestorLibros
@@ -38,7 +39,7 @@ ArrayList<Persona> listaLibroModelo = new ArrayList<>();
     public void setDatos() {
         Object[] Datosfila = new Object[modelo.getColumnCount()];
         int nro = 1;
-        for (Persona datos : listaLibroModelo ) {
+        for (PersonaModelo datos : listaLibroModelo ) {
             Datosfila[0] = nro;
             Datosfila[1] = datos.getTitulo();
             Datosfila[2] = datos.getAutor();
@@ -76,13 +77,16 @@ ArrayList<Persona> listaLibroModelo = new ArrayList<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblLibros = new javax.swing.JTable();
         btnInsertar = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        btnBuscar = new javax.swing.JButton();
+        tbnListar = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
         lblLugar = new javax.swing.JLabel();
         lblFEdicion = new javax.swing.JLabel();
         txtlugar = new javax.swing.JTextField();
-        txtFEdicion = new javax.swing.JTextField();
+        lblEditorial = new javax.swing.JLabel();
+        txtEditorial = new javax.swing.JTextField();
+        btnModificar = new javax.swing.JButton();
+        txtFechaE = new javax.swing.JTextField();
 
         setClosable(true);
         setIconifiable(true);
@@ -103,7 +107,7 @@ ArrayList<Persona> listaLibroModelo = new ArrayList<>();
         lblPagina.setText("Pagina");
 
         lblEdicion.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        lblEdicion.setText("edición ");
+        lblEdicion.setText("Edicion");
 
         tblLibros.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -118,18 +122,33 @@ ArrayList<Persona> listaLibroModelo = new ArrayList<>();
         ));
         jScrollPane1.setViewportView(tblLibros);
 
-        btnInsertar.setText("Insertar");
+        btnInsertar.setText("Insertar Tabla");
         btnInsertar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnInsertarActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Buscar");
+        btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("Listar");
+        tbnListar.setText("Listar");
+        tbnListar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tbnListarActionPerformed(evt);
+            }
+        });
 
-        jButton4.setText("Eliminar");
+        btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         lblLugar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblLugar.setText("Lugar");
@@ -137,17 +156,22 @@ ArrayList<Persona> listaLibroModelo = new ArrayList<>();
         lblFEdicion.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblFEdicion.setText("Fecha edición");
 
+        lblEditorial.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblEditorial.setText("Editorial");
+
+        btnModificar.setText("Modificar");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(16, 16, 16)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(57, 57, 57)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 733, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 733, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblPagina)
                             .addGroup(layout.createSequentialGroup()
@@ -157,6 +181,7 @@ ArrayList<Persona> listaLibroModelo = new ArrayList<>();
                                     .addComponent(lblAutor)
                                     .addComponent(lblTitulo)
                                     .addComponent(lblFEdicion)
+                                    .addComponent(lblEditorial)
                                     .addComponent(lblLugar))
                                 .addGap(55, 55, 55)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -166,14 +191,20 @@ ArrayList<Persona> listaLibroModelo = new ArrayList<>();
                                     .addComponent(txtpagina, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtedicion, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtTitulo, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtFEdicion, javax.swing.GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE))
-                                .addGap(239, 239, 239)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(btnInsertar)
-                                    .addComponent(jButton2)
-                                    .addComponent(jButton3)
-                                    .addComponent(jButton4))))))
-                .addContainerGap(109, Short.MAX_VALUE))
+                                    .addComponent(txtEditorial)
+                                    .addComponent(txtFechaE, javax.swing.GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addGap(305, 305, 305)
+                                        .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(304, 304, 304)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(btnInsertar)
+                                            .addComponent(btnBuscar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(btnEliminar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(tbnListar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                        .addGap(216, 216, 216))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -181,37 +212,51 @@ ArrayList<Persona> listaLibroModelo = new ArrayList<>();
                 .addGap(22, 22, 22)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblTitulo)
-                    .addComponent(txtTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnInsertar))
+                    .addComponent(txtTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblAutor)
+                            .addComponent(txtAutor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblIsbn)
+                            .addComponent(txtIsbn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblPagina)
+                            .addComponent(txtpagina, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblEdicion)
+                            .addComponent(txtedicion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblEditorial)
+                            .addComponent(txtEditorial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblLugar)
+                            .addComponent(txtlugar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(20, 20, 20)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblFEdicion)
+                            .addComponent(txtFechaE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(39, 39, 39)
+                        .addComponent(btnInsertar)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnBuscar)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnEliminar)
+                        .addGap(18, 18, 18)
+                        .addComponent(tbnListar)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnModificar)))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblAutor)
-                    .addComponent(txtAutor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblIsbn)
-                    .addComponent(txtIsbn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblPagina)
-                    .addComponent(txtpagina, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblEdicion)
-                    .addComponent(txtedicion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblLugar)
-                    .addComponent(txtlugar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblFEdicion)
-                    .addComponent(txtFEdicion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(45, Short.MAX_VALUE))
         );
 
         pack();
@@ -223,42 +268,107 @@ ArrayList<Persona> listaLibroModelo = new ArrayList<>();
     String titulo =txtTitulo.getText();
     String ISBN = txtIsbn.getText();
     int paginas = Integer.parseInt(txtpagina.getText());
-    String edición;
-    String editorial;
-    String lugar; 
-    Date fecha;
+    String edición= txtedicion.getText();
+    String editorial = txtEditorial.getText();
+    String lugar = txtlugar.getText(); 
+    String fecha = txtFechaE.getText();
         
 
         // Crear una instancia de PersonaModelo con los datos obtenidos
-        Persona nuevaPersona = new Persona(autor,titulo,ISBN,paginas,edición,editorial,lugar, fecha);
+        PersonaModelo nuevaPersona = new PersonaModelo(autor,titulo,ISBN,paginas,edición,editorial,lugar, fecha);
 
         // Crear una instancia de PersonaControlador
         PersonaControlador controlador = new PersonaControlador();
 
         // Llamar al método crearPersona
-        controlador.crearPersona(nuevaPersona);
+        //controlador.crearPersona(nuevaPersona);
         setDatos();
-        limpiarTabla();
-        cargarTabla();
+        //limpiarTabla();
+        //cargarTabla();
     }//GEN-LAST:event_btnInsertarActionPerformed
 
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        // TODO add your handling code here:
+               // Obtener la cédula del campo de texto
+        String titulo = txtTitulo.getText();
+
+        // Crear una instancia de PersonaModelo con la cédula
+        PersonaModelo personaBuscada = new PersonaModelo();
+        personaBuscada.setTitulo(titulo);
+
+        // Crear una instancia de PersonaControlador
+        PersonaControlador controlador = new PersonaControlador();
+
+        // Llamar al método recuperarDatosPersona
+        //controlador.recuperarDatosPersona(personaBuscada);
+
+        // Limpiar la tabla
+        //limpiarTabla();
+
+        // Agregar la persona buscada a la lista de personas
+        listaLibroModelo.clear();
+        listaLibroModelo.add(personaBuscada);
+
+        // Llamar al método setDatos para agregar las personas a la tabla
+        setDatos();
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void tbnListarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tbnListarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tbnListarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        // TODO add your handling code here:
+       limpiarEntradas();
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+     public void limpiarTabla() {
+        int a = modelo.getRowCount() - 1;
+
+        for (int i = a; i >= 0; i--) {
+
+            modelo.removeRow(i);
+        }
+    }
+
+    public void limpiarEntradas() {
+        txtTitulo.setText("");
+        txtAutor.setText("");
+        txtIsbn.setText("");
+        txtpagina.setText("");
+        txtedicion.setText("");
+        txtEditorial.setText("");
+        
+    }
+
+    private void cargarTabla() {
+        PersonaControlador pC = new PersonaControlador();
+        ArrayList<Object[]> listaP = pC.datosPersona;
+        for (Object[] fila : listaP) {
+            modelo.addRow(fila);
+        }
+        tblLibros.setModel(modelo);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnInsertar;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton btnModificar;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblAutor;
     private javax.swing.JLabel lblEdicion;
+    private javax.swing.JLabel lblEditorial;
     private javax.swing.JLabel lblFEdicion;
     private javax.swing.JLabel lblIsbn;
     private javax.swing.JLabel lblLugar;
     private javax.swing.JLabel lblPagina;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JTable tblLibros;
+    private javax.swing.JButton tbnListar;
     private javax.swing.JTextField txtAutor;
-    private javax.swing.JTextField txtFEdicion;
+    private javax.swing.JTextField txtEditorial;
+    private javax.swing.JTextField txtFechaE;
     private javax.swing.JTextField txtIsbn;
     private javax.swing.JTextField txtTitulo;
     private javax.swing.JTextField txtedicion;
